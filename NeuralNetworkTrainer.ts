@@ -22,7 +22,15 @@ export class NeuralNetworkTrainer implements ITrainer {
         )
       )
     )
-    this.net.train(trainData)
+
+    const trainOpts = {
+      errorThresh: 0.001,
+      log: true,
+      learningRate: 0.05,
+      momentum: 0.05
+    }
+
+    this.net.train(trainData, trainOpts)
 
     return this.net.toJSON()
   }

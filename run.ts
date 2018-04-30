@@ -6,12 +6,12 @@ import { IClassifier, ITrainer } from './types';
 const ARG_FACE_SIZE = 1
 const ARG_NUM_TRAIN_FACES = 2
 const ARG_CLASSIFIER_TYPE = 3
-const ARG_LOG_WRONG_PREDICTIONS = 4
+const ARG_LOG_SINGLE_CLASSIFICATION_RESULTS = 4
 
 const FACE_SIZE = parseInt(process.argv[ARG_FACE_SIZE + 1])
 const NUM_TRAIN_FACES = parseInt(process.argv[ARG_NUM_TRAIN_FACES + 1])
 const CLASSIFIER_TYPE = process.argv[ARG_CLASSIFIER_TYPE + 1]
-const LOG_SINGLE_CLASSIFICATION_RESULTS = process.argv[ARG_LOG_WRONG_PREDICTIONS + 1] === '1'
+const LOG_SINGLE_CLASSIFICATION_RESULTS = process.argv[ARG_LOG_SINGLE_CLASSIFICATION_RESULTS + 1] === '1'
 
 checkFaceSize()
 checkNumTrainingFaces()

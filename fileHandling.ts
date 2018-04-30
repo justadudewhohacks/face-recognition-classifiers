@@ -31,11 +31,22 @@ export function readTestDataSets(faceSize: number, numTrainData: number): DataSe
   return readDataSet(faceSize, files => files.slice(numTrainData))
 }
 
+function getModelsDirpath(): string {
+  return path.resolve(__dirname, 'models')
+}
+
 function getModelFilepath(filename: string): string {
-  return path.resolve(__dirname, 'models', filename)
+  return path.resolve(getModelsDirpath(), filename)
+}
+
+function ensureModelDir() {
+  if (!fs.existsSync(getModelsDirpath())) {
+    fs.mkdirSync(getModelsDirpath())
+  }
 }
 
 export function saveModelFile(filename: string, data: Buffer | string) {
+  ensureModelDir()
   fs.writeFileSync(getModelFilepath(filename), data)
 }
 
