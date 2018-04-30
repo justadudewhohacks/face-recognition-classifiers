@@ -2,6 +2,7 @@ import { existsModelFile, readModelFile, readTestDataSets, readTrainDataSets, sa
 import { NeuralNetworkClassifier } from './NeuralNetworkClassifier';
 import { NeuralNetworkTrainer } from './NeuralNetworkTrainer';
 import { IClassifier, ITrainer } from './types';
+import { EuclideanDistanceClassifier } from './EuclideanDistanceClassifier';
 
 const ARG_FACE_SIZE = 1
 const ARG_NUM_TRAIN_FACES = 2
@@ -17,9 +18,9 @@ checkFaceSize()
 checkNumTrainingFaces()
 checkClassifierType()
 
-console.log('face size: ', FACE_SIZE)
-console.log('num training samples: ', NUM_TRAIN_FACES)
-console.log('classifier type: ', CLASSIFIER_TYPE)
+console.log('face size:', FACE_SIZE)
+console.log('num training samples:', NUM_TRAIN_FACES)
+console.log('classifier type:', CLASSIFIER_TYPE)
 
 function checkFaceSize() {
   if (FACE_SIZE === 105 || FACE_SIZE === 150)
@@ -70,15 +71,7 @@ function getTrainer(): ITrainer {
   }
 }
 
-function getClassifier(): IClassifier {
-  if (CLASSIFIER_TYPE === 'net') {
-    return new NeuralNetworkClassifier(JSON.parse(readModelFile(getModelFilename()).toString()))
-  } else {
-    throw new Error(`unknown classifier type '${CLASSIFIER_TYPE}'`)
-  }
-}
-
-if (!existsModelFile(getModelFilename())) {
+function train() {
   console.log(`model file does not exists for face size '${FACE_SIZE}', num training samples '${NUM_TRAIN_FACES}'`)
   console.log(`training...`)
 
@@ -90,6 +83,21 @@ if (!existsModelFile(getModelFilename())) {
   console.log()
 
   saveModelFile(getModelFilename(), JSON.stringify(trainedModel))
+}
+
+function getClassifier(): IClassifier {
+  if (CLASSIFIER_TYPE === 'dist') {
+    return new EuclideanDistanceClassifier(readTrainDataSets(FACE_SIZE, NUM_TRAIN_FACES))
+  } else if (CLASSIFIER_TYPE === 'net') {
+    return new NeuralNetworkClassifier(JSON.parse(readModelFile(getModelFilename()).toString()))
+  }
+  else {
+    throw new Error(`unknown classifier type '${CLASSIFIER_TYPE}'`)
+  }
+}
+
+if (CLASSIFIER_TYPE !== 'dist' && !existsModelFile(getModelFilename())) {
+  train()
 }
 
 const classifier = getClassifier()
@@ -109,7 +117,7 @@ testDataSets.forEach(
     const result = classifier.runClassification(desc)
 
     if (LOG_SINGLE_CLASSIFICATION_RESULTS) {
-      console.log(className, result.className, result.probability)
+      console.log(className, result.className, result.probability || result.distance)
     }
 
     if (className !== result.className) {
@@ -120,7 +128,7 @@ testDataSets.forEach(
       curr.numWrongClassifications = curr.numWrongClassifications + 1
 
       if (LOG_SINGLE_CLASSIFICATION_RESULTS) {
-        console.log(`wrong classification result for className '${className}': ${result.className} (${result.probability})`)
+        console.log(`wrong classification result for className '${className}': ${result.className} (${result.probability || result.distance})`)
       }
     }
   })

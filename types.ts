@@ -4,7 +4,8 @@ export type Data = number[]
 
 export type ClassificationResult = {
   className: string
-  probability: number
+  probability?: number
+  distance?: number
 }
 
 export interface ITrainer {
