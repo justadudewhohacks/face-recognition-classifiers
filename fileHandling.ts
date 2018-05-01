@@ -11,8 +11,12 @@ function readDescriptors(classDir: string, pickData: PickDataFuncton): number[][
     .map(filepath => JSON.parse(fs.readFileSync(filepath).toString()))
 }
 
+function getDescriptorsDir(faceSize: number) {
+  return path.resolve(__dirname, `data/${faceSize}x${faceSize}/descriptors`)
+}
+
 function readDataSet(faceSize: number, pickData: PickDataFuncton): DataSet[] {
-  const inputDir = path.resolve(__dirname, `data/${faceSize}x${faceSize}/descriptors`)
+  const inputDir = getDescriptorsDir(faceSize)
   const classNames = fs.readdirSync(inputDir) as string[]
 
   return classNames.map(className =>
@@ -56,4 +60,22 @@ export function readModelFile(filename: string): Buffer | string {
 
 export function existsModelFile(filename: string): boolean {
   return fs.existsSync(getModelFilepath(filename))
+}
+
+export function getFullDataSetSize(faceSize: number) {
+  const inputDir = getDescriptorsDir(faceSize)
+  return fs.readdirSync(inputDir)
+    .map(className => fs.readdirSync(path.resolve(inputDir, className)))
+    .reduce((res, filesByClass) => res + filesByClass.length, 0)
+}
+
+export function getDataSetSizesByClass(faceSize: number) {
+  const inputDir = getDescriptorsDir(faceSize)
+  return fs.readdirSync(inputDir)
+    .map(className => ({ className, size: fs.readdirSync(path.resolve(inputDir, className)).length }))
+    .sort((s1, s2) => s1.size - s2.size)
+}
+
+export function getNumClasses(faceSize: number) {
+  return fs.readdirSync(getDescriptorsDir(faceSize)).length
 }
