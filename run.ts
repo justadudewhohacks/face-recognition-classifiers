@@ -134,6 +134,8 @@ testDataSets.forEach(
   })
 )
 
+const toPercentage = (val: number) => `${Math.floor((val) * 10000) / 100}%`
+
 console.log()
 console.log('result:')
 console.log('----------')
@@ -145,8 +147,16 @@ console.log()
 results.forEach((res) => {
   const { className, numWrongClassifications, numTestData } = res
   const numRecognized = numTestData - numWrongClassifications
-  console.log(`${className}: ${Math.floor((numRecognized / numTestData) * 10000) / 100}% of faces recognized, ${numRecognized} of ${numTestData}`)
+  console.log(`${className}: ${toPercentage(numRecognized / numTestData)} of faces recognized, ${numRecognized} of ${numTestData}`)
 })
+
+const percRecognizedTotal = results.map(res => ((res.numTestData - res.numWrongClassifications) / res.numTestData))
+  .reduce((sum, curr) => sum + curr, 0)
+  / results.length
+
+console.log()
+console.log(`${toPercentage(percRecognizedTotal)} of faces recognized`)
+console.log()
 
 console.log()
 console.log('----------')
