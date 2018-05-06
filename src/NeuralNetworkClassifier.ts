@@ -1,5 +1,6 @@
 import { ClassificationResult, Data, IClassifier } from './types';
 
+
 const brain = require('brain.js')
 
 export class NeuralNetworkClassifier implements IClassifier {

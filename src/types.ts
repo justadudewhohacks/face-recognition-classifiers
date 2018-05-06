@@ -9,7 +9,7 @@ export type ClassificationResult = {
 }
 
 export interface ITrainer {
-  train: (trainingSets: DataSet[]) => any
+  train: (trainingSets: DataSet[], trainOpts?: any) => any
 }
 
 export interface IClassifier {

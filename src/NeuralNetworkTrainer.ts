@@ -7,11 +7,11 @@ const brain = require('brain.js')
 export class NeuralNetworkTrainer implements ITrainer {
   net: any
 
-  constructor() {
-    this.net = new brain.NeuralNetwork()
+  constructor(opts: any) {
+    this.net = new brain.NeuralNetwork(opts)
   }
 
-  train(trainingSets: DataSet[]): any {
+  train(trainingSets: DataSet[], trainOpts: any = {}): any {
     const trainData = flatten(
       trainingSets.map(trainDataForClass =>
         trainDataForClass.data.map(
@@ -22,13 +22,6 @@ export class NeuralNetworkTrainer implements ITrainer {
         )
       )
     )
-
-    const trainOpts = {
-      errorThresh: 0.001,
-      log: true,
-      learningRate: 0.05,
-      momentum: 0.05
-    }
 
     this.net.train(trainData, trainOpts)
 

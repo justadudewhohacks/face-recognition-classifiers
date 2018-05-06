@@ -12,7 +12,7 @@ function readDescriptors(classDir: string, pickData: PickDataFuncton): number[][
 }
 
 function getDescriptorsDir(faceSize: number) {
-  return path.resolve(__dirname, `data/${faceSize}x${faceSize}/descriptors`)
+  return path.resolve(__dirname, `../data/${faceSize}x${faceSize}/descriptors`)
 }
 
 function readDataSet(faceSize: number, pickData: PickDataFuncton): DataSet[] {
@@ -36,14 +36,14 @@ export function readTestDataSets(faceSize: number, numTrainData: number): DataSe
 }
 
 function getModelsDirpath(): string {
-  return path.resolve(__dirname, 'models')
+  return path.resolve(__dirname, '../models')
 }
 
-function getModelFilepath(filename: string): string {
+export function getModelFilepath(filename: string): string {
   return path.resolve(getModelsDirpath(), filename)
 }
 
-function ensureModelDir() {
+export function ensureModelDir() {
   if (!fs.existsSync(getModelsDirpath())) {
     fs.mkdirSync(getModelsDirpath())
   }

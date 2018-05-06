@@ -8,6 +8,7 @@
   "dependencies": {
     "@types/node": "^10.0.0",
     "brain.js": "^1.2.1",
+    "commander": "^2.15.1",
     "tslib": "^1.9.0"
   }
 }
