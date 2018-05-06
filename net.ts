@@ -14,7 +14,8 @@ cmd
   .option('-e, --error_threshold <n>', 'error threshold (training parameter)', parseFloat)
   .option('-r, --learning_rate <n>', 'learning rate (training parameter)', parseFloat)
   .option('-m, --momentum <n>', 'momentum (training parameter)', parseFloat)
-  .option('-a, --activation <n>', 'activation function sigmoid: | relu | leaky-relu | tanh')
+  .option('-i, --iterations <n>', 'maximum iterations (training parameter)', parseInt)
+  .option('-a, --activation <n>', 'activation function: sigmoid | relu | leaky-relu | tanh')
   .option('-l, --hidden_layers <n>', 'number and sizes of hidden layers (array of numbers), example: 128,90,60')
   .parse(process.argv)
 
@@ -23,6 +24,7 @@ validateRequiredArgs(cmd.face_size, cmd.num_samples)
 const errorThresh = argOrDefault(cmd.error_threshold, 0.001)
 const learningRate = argOrDefault(cmd.learning_rate, 0.01)
 const momentum = argOrDefault(cmd.momentum, 0.05)
+const iterations = argOrDefault(cmd.iterations, 20000)
 const activation = argOrDefault(cmd.activation, 'sigmoid')
 const hiddenLayers: number[] = argOrDefault(cmd.hidden_layers, [], (layers: string) => layers.split(',').map(l => parseInt(l)))
 
@@ -32,6 +34,7 @@ console.log('number of training samples:', cmd.num_samples)
 console.log('error threshold:', errorThresh)
 console.log('learning rate:', learningRate)
 console.log('momentum:', momentum)
+console.log('iterations:', iterations)
 console.log('activation:', activation)
 console.log('hiddenLayers:', hiddenLayers)
 console.log()
@@ -47,6 +50,7 @@ const opts = {
 }
 
 const trainOpts = {
+  iterations,
   errorThresh,
   learningRate,
   momentum,

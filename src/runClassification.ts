@@ -70,7 +70,7 @@ export function runClassification(classifier: IClassifier, opts: RunClassificati
   })
 
   const percRecognizedTotal = results.map(res => ((res.numTestData - res.numWrongClassifications) / res.numTestData))
-    .reduce((sum, curr) => sum + curr, 0)
+    .reduce((sum, curr) => sum + (curr || 0), 0)
     / results.length
 
   console.log()
