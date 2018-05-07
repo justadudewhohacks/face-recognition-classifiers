@@ -108,6 +108,16 @@ parameters:
 
 ## Results
 
+For the following experiments the default parameters net.ts have been used:
+
+- error_threshold = 0.001
+- learning_rate = 0.01
+- momentum = 0.05
+- activation = sigmoid
+- no hidden layers (only input layer and output layer)
+
+The SVM parameters where determined by auto training.
+
 ### Accuracy
 
 105 x 105:

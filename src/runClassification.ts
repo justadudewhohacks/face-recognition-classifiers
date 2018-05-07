@@ -39,7 +39,10 @@ export function runClassification(classifier: IClassifier, opts: RunClassificati
         console.log(className, result.className, result.probability || result.distance)
       }
 
-      if (className !== result.className) {
+      if (className !== result.className
+     //   || result.probability && result.probability < 0.5
+     //   || result.distance && result.distance > 0.6
+      ) {
         const curr = results.find(res => res.className === className)
         if (!curr) {
           throw new Error(`testDataSets does not contain className '${className}'`)
