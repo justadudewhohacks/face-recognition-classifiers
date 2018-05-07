@@ -13,7 +13,7 @@
 
 ## Datasets
 
-- input: face descriptors (vectors with 128 entryies)
+- input: face descriptors (vectors with 128 entries)
 - 77 classes
 
 ### 105 x 105:
@@ -127,7 +127,7 @@ n  | Euclidean Distance | SVM    | Neural Network |
 10 | 98.6%              | 98.6%  | 98.7%          |
 20 | 98.8%              | 98.8%  | 98.9%          |
 
-Training Time:
+### Training Time
 
 105 x 105:
 
